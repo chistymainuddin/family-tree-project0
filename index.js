@@ -16,10 +16,10 @@ app.get('/api/tree', async (req, res) => {
 });
 
 app.post('/api/members', async (req, res) => {
-  const { name, parent_id, birth_date } = req.body; // Using 'name'
+  const { name, parent_id, spouse, generation, birth_date } = req.body; 
   const { data, error } = await supabase
     .from('members')
-    .insert([{ name, parent_id, birth_date }])
+    .insert([{ name, parent_id, spouse, generation, birth_date }]) // 'generation' is text
     .select();
 
   if (error) return res.status(400).json(error);
