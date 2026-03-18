@@ -9,19 +9,17 @@ app.use(express.json());
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
 
-// [GET] Fetch Recursive Tree
 app.get('/api/tree', async (req, res) => {
   const { data, error } = await supabase.rpc('get_family_tree');
   if (error) return res.status(400).json(error);
   res.json(data);
 });
 
-// [POST] Save new member
 app.post('/api/members', async (req, res) => {
-  const { first_name, last_name, parent_id, birth_date } = req.body;
+  const { name, parent_id, birth_date } = req.body; // Using 'name'
   const { data, error } = await supabase
     .from('members')
-    .insert([{ first_name, last_name, parent_id, birth_date }])
+    .insert([{ name, parent_id, birth_date }])
     .select();
 
   if (error) return res.status(400).json(error);
